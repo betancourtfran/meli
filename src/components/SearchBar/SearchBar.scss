@@ -13,8 +13,7 @@
     }
 }
 .SearchBar__container {
-    display: flex;
-    flex: 9;
+    grid-column: 3/12;
     justify-content: center;
     align-items: center;
     min-width: 230px;
