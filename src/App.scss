@@ -1,8 +1,8 @@
 .app {
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  // justify-content: center;
+	height: 100vh;
+	display: grid;
+	background-color: #eeeeee;
+	grid-template-columns: repeat(12, 1fr);
+	grid-template-rows: repeat(12, 1fr);
+	grid-row: 1/12;
 }

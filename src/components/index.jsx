@@ -5,3 +5,5 @@ export { SearchResults } from './SearchResults';
 export { Loader } from './Loader';
 export { Logo } from './Logo';
 export { Header } from './Header';
+export { Breadcrum } from './Breadcrum';
+export { ProductDetails } from './ProductDetails';

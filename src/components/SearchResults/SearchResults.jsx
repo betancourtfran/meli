@@ -1,51 +1,70 @@
 import React from 'react';
-import { Loader } from '../'
+import { Route, withRouter, NavLink } from 'react-router-dom';
+import { currencyFormatter } from '../../utilities/numberFormatters';
+import { fetchItems, fetchItemDetails } from '../../services/request';
+import { Loader, ProductDetails } from '../';
 import './SearchResults.scss';
 
-const SearchResults = ({ items, isFetching, itemNotFound }) => {
-	return (
-		<div className={'SearchResults__container'}>
-			<Loader isFetching={isFetching} />
-			{items.length > 0 ? (
-				<>
-					<h2>Resultados de la busqueda</h2>
-					<div className={'SearchResults__results'}>
-						<ul>
-							{items.map(item => (
-								<li>
-									<div className={'SearchResults____result'}>
-										<img width='150' height='150' src={item.sprites.front_default} alt={item.name} />
-										<section>
-											<h1>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</h1>
-											<ul>
-												<li>
-													<strong>#: </strong>{item.id} <br />
-												</li>
-												<li>
-													<strong>Type: </strong>{item.types.map(({ type }) => type.name).join(', ')} <br />
-												</li>
-												<li>
-													<strong>Weight: </strong>{item.weight} <br />
-												</li>
-												<li>
-													<strong>Abilities: </strong>{item.abilities.map(({ ability }) => ability.name).join(', ')} <br />
-												</li>
-											</ul>
-										</section>
-									</div>
-								</li>
-							)
-							)
-							}
-						</ul>
-					</div>
-				</>
-			) : itemNotFound && (
-				<h2>Item not found</h2>
-			)
-			}
-		</div>
-	)
+class SearchResults extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { isFetching: false, itemNotFound: false, items: [] };
+		this.placeholder = 'Nunca dejes de buscar';
+	}
+
+	setSelectedItem = (selectedItem) => {
+		this.props.setSelectedItem(selectedItem);
+	};
+
+	handleItemsSearch = async (query) => {
+		let items = await fetchItems(query);
+		this.setState({ items });
+	};
+
+	getQuery = (query) => {
+		let sanitizedQuery = query.split('=')[1];
+		this.handleItemsSearch(sanitizedQuery);
+	};
+
+	componentDidMount = () => {
+		this.getQuery(this.props.location.search);
+	};
+
+	render = () => {
+		const { match } = this.props;
+		return (
+			<div className={'SearchResults__container'}>
+				<Loader isFetching={this.state.isFetching} />
+				{this.state.items.length > 0 ? (
+					<>
+						<div className={'SearchResults__results'}>
+							<ul>
+								{this.state.items.map((item) => (
+									<li>
+										<NavLink onClick={() => this.setSelectedItem(item)} to={`${match.url}/${item.id}`}>
+											<div className={'SearchResults____result'}>
+												<img width='150' height='150' src={item.thumbnail} alt={item.title} />
+												<section>
+													<h1>{item.title}</h1>
+													<ul>
+														<li>Precio {currencyFormatter(item.original_price || item.price, item.currency_id || item.installment.currency_id)}</li>
+														<li>{item.seller_address.state.name}</li>
+														<li>Completo Unico</li>
+													</ul>
+												</section>
+											</div>
+										</NavLink>
+									</li>
+								))}
+							</ul>
+						</div>
+					</>
+				) : (
+					this.state.itemNotFound && <h2>Item not found</h2>
+				)}
+			</div>
+		);
+	};
 }
 
-export default SearchResults;
+export default withRouter(SearchResults);

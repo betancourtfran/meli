@@ -1,16 +1,14 @@
 import React from 'react';
-import { SearchBar, Logo } from '../';
+import { Logo } from '../';
 import './Header.scss';
 
-const Header = ({
-    onSubmit
-}) => {
-    return (
-        <div className='Header__container'>
-            <Logo />
-            <SearchBar onSubmit={onSubmit} />
-        </div>
-    )
-}
+const Header = ({ children }) => {
+	return (
+		<div className='Header__container'>
+			<Logo />
+			{children}
+		</div>
+	);
+};
 
 export default Header;

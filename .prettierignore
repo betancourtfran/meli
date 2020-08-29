@@ -1,0 +1,16 @@
+#configurations
+react-app-env.js
+serviceWorker.js
+setupTests.js
+
+#misc
+package.json
+package-lock.json
+README.md
+
+#folders
+/node_modules
+/public
+
+#hidden files
+.gitignore
