@@ -1,8 +1,9 @@
 import React from 'react';
-import { Route, withRouter, NavLink } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { currencyFormatter } from '../../utilities/numberFormatters';
 import { fetchItems, fetchItemDetails } from '../../services/request';
 import { Loader, ProductDetails } from '../';
+import ic_shipping from '../../assets/ic_shipping.png';
 import './SearchResults.scss';
 
 class SearchResults extends React.Component {
@@ -40,21 +41,28 @@ class SearchResults extends React.Component {
 						<div className={'SearchResults__results'}>
 							<ul>
 								{this.state.items.map((item) => (
-									<li>
-										<NavLink onClick={() => this.setSelectedItem(item)} to={`${match.url}/${item.id}`}>
-											<div className={'SearchResults____result'}>
-												<img width='150' height='150' src={item.thumbnail} alt={item.title} />
-												<section>
-													<h1>{item.title}</h1>
-													<ul>
-														<li>Precio {currencyFormatter(item.original_price || item.price, item.currency_id || item.installment.currency_id)}</li>
-														<li>{item.seller_address.state.name}</li>
-														<li>Completo Unico</li>
-													</ul>
-												</section>
-											</div>
-										</NavLink>
-									</li>
+									<NavLink onClick={() => this.setSelectedItem(item)} to={`${match.url}/${item.id}`}>
+										<li>
+											<section className='SearchResults__result'>
+												<div className='SearchResults__result__image__container'>
+													<img className='SearchResults__result__image' width='180' height='180' src={item.thumbnail} alt={item.title} />
+												</div>
+												<div className='SearchResults__result__description'>
+													<div className='SearchResults__result__price-state'>
+														<div>
+															<span className='SearchResults__result__price'>
+																{currencyFormatter(item.original_price || item.price, item.currency_id || item.installment.currency_id)}{' '}
+															</span>
+															{item.shipping?.free_shipping && <img src={ic_shipping} alt='envio gratis' width='18' height='18' />}
+														</div>
+														<span className='SearchResults__result__state'>{item.seller_address.state.name}</span>
+													</div>
+													<h2>{item.title}</h2>
+													<span>Completo Unico</span>
+												</div>
+											</section>
+										</li>
+									</NavLink>
 								))}
 							</ul>
 						</div>
