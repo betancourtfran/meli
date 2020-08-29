@@ -1,4 +1,4 @@
-const currencyFormatter = (number, currencyFormat) =>
+const currencyFormatter = (number, currencyFormat = 'ARS') =>
 	new Intl.NumberFormat('es-AR', {
 		style: 'currency',
 		currency: currencyFormat,
