@@ -19,6 +19,7 @@ class SearchResults extends React.Component {
 
 	handleItemsSearch = async (query) => {
 		let items = await fetchItems(query);
+		console.log(items);
 		this.setState({ items });
 	};
 
