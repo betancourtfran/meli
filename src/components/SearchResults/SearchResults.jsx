@@ -19,7 +19,6 @@ class SearchResults extends React.Component {
 
 	handleItemsSearch = async (query) => {
 		let items = await fetchItems(query);
-		console.log(items);
 		this.setState({ items });
 	};
 
@@ -46,17 +45,17 @@ class SearchResults extends React.Component {
 										<li>
 											<section className='SearchResults__result'>
 												<div className='SearchResults__result__image__container'>
-													<img className='SearchResults__result__image' width='180' height='180' src={item.thumbnail} alt={item.title} />
+													<img className='SearchResults__result__image' width='180' height='180' src={item.picture} alt={item.title} />
 												</div>
 												<div className='SearchResults__result__description'>
 													<div className='SearchResults__result__price-state'>
 														<div>
 															<span className='SearchResults__result__price'>
-																{currencyFormatter(item.original_price || item.price, item.currency_id || item.installment.currency_id)}{' '}
+																{currencyFormatter(item.price.amount, item.price.currency)}{' '}
 															</span>
-															{item.shipping?.free_shipping && <img src={ic_shipping} alt='envio gratis' width='18' height='18' />}
+															{item.free_shipping && <img src={ic_shipping} alt='envio gratis' width='18' height='18' />}
 														</div>
-														<span className='SearchResults__result__state'>{item.seller_address.state.name}</span>
+														<span className='SearchResults__result__state'>{item.state}</span>
 													</div>
 													<h2>{item.title}</h2>
 													<span>Completo Unico</span>

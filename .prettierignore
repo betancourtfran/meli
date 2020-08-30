@@ -2,7 +2,6 @@
 react-app-env.js
 serviceWorker.js
 setupTests.js
-server.js
 
 #misc
 package.json

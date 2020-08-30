@@ -17,28 +17,14 @@ class App extends React.Component {
 	}
 
 	fetchItemsInfo = (items) => Promise.all(items.map(async (item) => await fetchItemDetails(item.name)));
-
-	// handleItemsSearch = async query => {
-	//   this.setState({
-	//     isFetching: true
-	//   });
-	//   const itemsPromise = fetchItems(query);
-	//   let foundItems;
-	//   itemsPromise.then(items => {
-	//     foundItems = items;
-	//   });
-	//   return foundItems;
-	// }
-
+	
 	setSelectedItem = (selectedItem) => {
-		console.log(selectedItem);
 		this.setState({
 			item: selectedItem,
 		});
 	};
 
 	handleSubmit = async (event) => {
-		// event.preventDefault();
 		if (!event.target[0].value) return;
 		const query = event.target[0].value;
 		const results = await this.handleItemsSearch(query);

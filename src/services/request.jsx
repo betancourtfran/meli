@@ -1,21 +1,20 @@
 import axios from 'axios';
 
-// const endPointBaseURL = `https://api.mercadolibre.com/sites/MLA`;
-// const endPointBaseURL = `http://localhost:5000`;
-// axios.defaults.headers.get;
-axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+const endPointBaseURL = `/api/items`;
 
-const fetchItems = (query) =>
-	axios
-		.get(`/api/items?q=​${query}`)
-		// .get(`${endPointBaseURL}/search?q=${query}`)
-		.then((res) => res.data.results)
+const fetchItems = async (query) =>
+	await axios
+		.get(endPointBaseURL, {
+			params: {
+				q: query,
+			},
+		})
+		.then(({ data: { items } }) => items)
 		.catch((err) => err);
 const fetchItemDetails = async (itemId) =>
 	await axios
-		.get(`/${itemId}`)
-		// .get(`${endPointBaseURL}/${itemId}`)
-		.then((res) => res.data)
+		.get(`${endPointBaseURL}/${itemId}`)
+		.then((res) => res)
 		.catch((err) => err);
 
 export { fetchItems, fetchItemDetails };
