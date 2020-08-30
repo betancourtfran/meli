@@ -11,10 +11,19 @@ const fetchItems = async (query) =>
 		})
 		.then(({ data: { items } }) => items)
 		.catch((err) => err);
+
 const fetchItemDetails = async (itemId) =>
 	await axios
 		.get(`${endPointBaseURL}/${itemId}`)
 		.then((res) => res)
 		.catch((err) => err);
 
-export { fetchItems, fetchItemDetails };
+const fetchItemDescription = async (itemId) =>
+	await axios
+		.get(`${endPointBaseURL}/${itemId}/description`)
+		.then((res) => {
+			return res.data;
+		})
+		.catch((err) => err);
+
+export { fetchItems, fetchItemDetails, fetchItemDescription };

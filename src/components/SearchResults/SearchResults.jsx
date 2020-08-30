@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { currencyFormatter } from '../../utilities/numberFormatters';
-import { fetchItems, fetchItemDetails } from '../../services/request';
-import { Loader, ProductDetails } from '../';
+import { fetchItems } from '../../services/request';
+import { Loader } from '../';
 import ic_shipping from '../../assets/ic_shipping.png';
 import './SearchResults.scss';
 
@@ -13,8 +13,8 @@ class SearchResults extends React.Component {
 		this.placeholder = 'Nunca dejes de buscar';
 	}
 
-	setSelectedItem = (selectedItem) => {
-		this.props.setSelectedItem(selectedItem);
+	fetchSelectedItem = (selectedItem) => {
+		this.props.fetchSelectedItem(selectedItem);
 	};
 
 	handleItemsSearch = async (query) => {
@@ -41,7 +41,7 @@ class SearchResults extends React.Component {
 						<div className={'SearchResults__results'}>
 							<ul>
 								{this.state.items.map((item) => (
-									<NavLink onClick={() => this.setSelectedItem(item)} to={`${match.url}/${item.id}`}>
+									<NavLink onClick={() => this.fetchSelectedItem(item)} to={`${match.url}/${item.id}`}>
 										<li>
 											<section className='SearchResults__result'>
 												<div className='SearchResults__result__image__container'>
@@ -50,9 +50,7 @@ class SearchResults extends React.Component {
 												<div className='SearchResults__result__description'>
 													<div className='SearchResults__result__price-state'>
 														<div>
-															<span className='SearchResults__result__price'>
-																{currencyFormatter(item.price.amount, item.price.currency)}{' '}
-															</span>
+															<span className='SearchResults__result__price'>{currencyFormatter(item.price.amount, item.price.currency)} </span>
 															{item.free_shipping && <img src={ic_shipping} alt='envio gratis' width='18' height='18' />}
 														</div>
 														<span className='SearchResults__result__state'>{item.state}</span>

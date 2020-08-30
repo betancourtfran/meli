@@ -1,13 +1,14 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { SearchResults, Breadcrum, ProductDetails, Header, SearchBar } from './components';
-import { fetchItems, fetchItemDetails } from './services/request';
+import { fetchItemDescription } from './services/request';
 import './App.scss';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			selectedItem: {},
 			items: [],
 			allItems: [],
 			isFetching: false,
@@ -16,25 +17,16 @@ class App extends React.Component {
 		};
 	}
 
-	fetchItemsInfo = (items) => Promise.all(items.map(async (item) => await fetchItemDetails(item.name)));
-	
-	setSelectedItem = (selectedItem) => {
-		this.setState({
-			item: selectedItem,
-		});
+	fetchSelectedItem = async (item) => {
+		const itemDescription = await fetchItemDescription(item.id);
+		const selectedItem = { ...item, item_description: itemDescription };
+		this.setSelectedItem(selectedItem);
 	};
 
-	handleSubmit = async (event) => {
-		if (!event.target[0].value) return;
-		const query = event.target[0].value;
-		const results = await this.handleItemsSearch(query);
-		if (results.length > 0) {
-			this.setState({
-				allItems: results,
-				isFetching: false,
-				query,
-			});
-		}
+	setSelectedItem = (selectedItem) => {
+		this.setState({
+			selectedItem,
+		});
 	};
 
 	render = () => {
@@ -53,13 +45,13 @@ class App extends React.Component {
 						}}
 					/>
 					<Switch>
-						<Route path='/items/:id' exact render={(props) => <ProductDetails {...props} item={this.state.item} />} />
+						<Route path='/items/:id' exact render={(props) => <ProductDetails {...props} item={this.state.selectedItem} />} />
 						<Route
 							path='/items'
 							render={(props) => (
 								<SearchResults
 									{...props}
-									setSelectedItem={this.setSelectedItem}
+									fetchSelectedItem={this.fetchSelectedItem}
 									items={this.state.allItems}
 									isFetching={this.state.isFetching}
 									itemNotFound={this.state.itemNotFound}

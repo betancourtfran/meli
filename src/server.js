@@ -28,7 +28,9 @@ app.get('/api/items', (req, res) => {
 				picture: item.thumbnail,
 				condition: item.condition,
 				free_shipping: item.shipping.free_shipping,
-				state: item.seller_address.state.name
+				state: item.seller_address.state.name,
+				item_condition: item.attributes[1].value_name,
+				sold_quantity: item.sold_quantity,
 			}));
 
 			let categories = data.available_filters[0].values.map((category) => category.name);
@@ -44,9 +46,14 @@ app.get('/api/items', (req, res) => {
 		})
 		.catch((err) => res.send(err));
 });
-app.post('/api/world', (req, res) => {
-	console.log(req.body);
-	res.send(`I received your POST request. This is what you sent me: ${req.body.post}`);
+app.get('/api/items/:id/description', (req, res) => {
+	const { href: url } = new URL(`items/${req.params.id}/description`, endPointBaseURL);
+	axios
+		.get(url)
+		.then(({ data }) => {
+			res.send(data.plain_text);
+		})
+		.catch((err) => res.send(err));
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
