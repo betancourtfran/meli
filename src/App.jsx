@@ -1,6 +1,6 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
-import { SearchResults, Breadcrum, ProductDetails, Header, SearchBar } from './components';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
+import { SearchResults, Breadcrumbs, ProductDetails, Header, SearchBar } from './components';
 import { fetchItemDescription } from './services/request';
 import './App.scss';
 
@@ -10,10 +10,7 @@ class App extends React.Component {
 		this.state = {
 			selectedItem: {},
 			items: [],
-			allItems: [],
 			isFetching: false,
-			itemNotFound: false,
-			fetchedQuery: '',
 		};
 	}
 
@@ -21,7 +18,13 @@ class App extends React.Component {
 		const itemDescription = await fetchItemDescription(item.id);
 		const selectedItem = { ...item, item_description: itemDescription };
 		this.setSelectedItem(selectedItem);
+		this.setFetchingState(false);
 	};
+
+	setFetchingState = (fetchingState) =>
+		this.setState({
+			isFetching: fetchingState,
+		});
 
 	setSelectedItem = (selectedItem) => {
 		this.setState({
@@ -31,7 +34,7 @@ class App extends React.Component {
 
 	render = () => {
 		return (
-			<BrowserRouter>
+			<Router>
 				<div className='app'>
 					<Route
 						path='/'
@@ -39,28 +42,28 @@ class App extends React.Component {
 							return (
 								<Header>
 									<SearchBar />
-									<Breadcrum {...props} />
+									<Breadcrumbs {...props} />
 								</Header>
 							);
 						}}
 					/>
 					<Switch>
-						<Route path='/items/:id' exact render={(props) => <ProductDetails {...props} item={this.state.selectedItem} />} />
+						<Route path='/items/:id' exact render={(props) => <ProductDetails {...props} item={this.state.selectedItem} isFetching={this.state.isFetching} />} />
 						<Route
 							path='/items'
 							render={(props) => (
 								<SearchResults
 									{...props}
 									fetchSelectedItem={this.fetchSelectedItem}
-									items={this.state.allItems}
 									isFetching={this.state.isFetching}
 									itemNotFound={this.state.itemNotFound}
+									setFetchingState={this.setFetchingState}
 								/>
 							)}
 						/>
 					</Switch>
 				</div>
-			</BrowserRouter>
+			</Router>
 		);
 	};
 }

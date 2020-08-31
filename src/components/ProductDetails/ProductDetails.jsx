@@ -1,26 +1,28 @@
 import React from 'react';
+import { Loader } from '../';
 import { currencyFormatter } from '../../utilities/numberFormatters';
 import './ProductDetails.scss';
 
-const ProductDetails = ({ item: product }) => {
+const ProductDetails = ({ item, isFetching }) => {
 	return (
 		<div className='ProductDetails__container'>
+			<Loader isFetching={isFetching} />
 			<div className='ProductDetails__product__image'>
-				<img src={product?.picture} alt='Imagen del Producto' width='680' height='680' />
+				<img src={item?.picture} alt='Imagen del Producto' width='680' height='680' />
 			</div>
 			<aside className='ProductDetails__product__main-description'>
 				<header>
 					<span className='ProductDetails__product__main-description__subtitle'>
-						{product?.item_condition} - {product?.sold_quantity} vendidos
+						{item?.item_condition} - {item?.sold_quantity} vendidos
 					</span>
-					<h1 className='ProductDetails__product__main-description__title'>{product?.title}</h1>
-					<span className='ProductDetails__product__main-description__price'>{currencyFormatter(product?.price?.amount, product?.price?.currency)}</span>
+					<h1 className='ProductDetails__product__main-description__title'>{item?.title}</h1>
+					<span className='ProductDetails__product__main-description__price'>{currencyFormatter(item?.price?.amount, item?.price?.currency)}</span>
 					<button>Comprar</button>
 				</header>
 			</aside>
 			<section className='ProductDetails__product__description'>
 				<h2>Descripcion del producto</h2>
-				<p>{product.item_description}</p>
+				<p>{item.item_description}</p>
 			</section>
 		</div>
 	);
