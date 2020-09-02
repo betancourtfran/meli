@@ -13,28 +13,25 @@ app.get('/api/items', (req, res) => {
 		query.push(`${key}=${val}`);
 		concatenatedQuery = query.join('&');
 	}
-	const { href: url } = new URL(`sites/MLA/search?${concatenatedQuery}`, endPointBaseURL);
+	const { href: url } = new URL(`sites/MLA/search?${concatenatedQuery}&limit=4`, endPointBaseURL);
 	axios
 		.get(url)
 		.then(({ data }) => {
-			let items = [];
-			for (let i = 0; i < 4; i++) {
-				items.push({
-					id: data.results[i].id,
-					title: data.results[i].title,
-					price: {
-						currency: data.results[i].currency_id || 'ARS',
-						amount: data.results[i].price || data.results[i].original_price,
-						decimals: data.results[i].decimals,
-					},
-					picture: data.results[i].thumbnail,
-					free_shipping: data.results[i].shipping.free_shipping,
-					state: data.results[i].seller_address.state.name,
-					item_condition: data.results[i].attributes[1].value_name,
-					sold_quantity: data.results[i].sold_quantity,
-				});
-			}
-			let categories = data.available_filters[0].values.map((category) => category.name);
+			let items = data.results.map((item) => ({
+				id: item.id,
+				title: item.title,
+				price: {
+					currency: item.currency_id || 'ARS',
+					amount: item.price || item.original_price,
+					decimals: 0,
+				},
+				picture: item.thumbnail,
+				free_shipping: item.shipping.free_shipping,
+				state: item.seller_address.state.name,
+				item_condition: item.attributes[1].value_name,
+				sold_quantity: item.sold_quantity,
+			}));
+			let categories = data.filters[0].values[0].path_from_root.map((category) => category);
 			let sanitizedResponse = {
 				author: {
 					name: 'Francisco',

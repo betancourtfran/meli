@@ -10,6 +10,7 @@ class App extends React.Component {
 		this.state = {
 			selectedItem: {},
 			items: [],
+			categories: [],
 			isFetching: false,
 		};
 	}
@@ -32,6 +33,12 @@ class App extends React.Component {
 		});
 	};
 
+	setCategories = (categories) => {
+		this.setState({
+			categories,
+		});
+	};
+
 	render = () => {
 		return (
 			<Router>
@@ -40,10 +47,12 @@ class App extends React.Component {
 						path='/'
 						render={(props) => {
 							return (
-								<Header>
-									<SearchBar />
-									<Breadcrumbs {...props} />
-								</Header>
+								<>
+									<Header>
+										<SearchBar />
+									</Header>
+									<Breadcrumbs {...props} categories={this.state.categories} />
+								</>
 							);
 						}}
 					/>
@@ -58,6 +67,7 @@ class App extends React.Component {
 									isFetching={this.state.isFetching}
 									itemNotFound={this.state.itemNotFound}
 									setFetchingState={this.setFetchingState}
+									setCategories={this.setCategories}
 								/>
 							)}
 						/>

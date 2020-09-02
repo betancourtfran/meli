@@ -2,7 +2,7 @@ import React from 'react';
 import './Logo.scss';
 
 const Logo = () => {
-	return <div className='Logo__container'></div>;
+	return <a className='Logo__container' href='/'></a>;
 };
 
 export default Logo;

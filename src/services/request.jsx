@@ -9,7 +9,7 @@ const fetchItems = async (query) =>
 				q: query,
 			},
 		})
-		.then(({ data: { items } }) => items)
+		.then(({ data }) => data)
 		.catch((err) => err);
 
 const fetchItemDetails = async (itemId) =>

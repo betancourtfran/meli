@@ -13,13 +13,14 @@ class SearchResults extends React.Component {
 		this.placeholder = 'Nunca dejes de buscar';
 	}
 
-	fetchSelectedItem = (selectedItem) => {
+	fetchSelectedItem = (selectedItem, categories) => {
 		this.props.setFetchingState(true);
-		this.props.fetchSelectedItem(selectedItem);
+		this.props.fetchSelectedItem(selectedItem, categories);
 	};
 
 	handleItemsSearch = async (query) => {
-		let items = await fetchItems(query);
+		let { items, categories } = await fetchItems(query);
+		this.props.setCategories(categories);
 		this.props.setFetchingState(false);
 		this.setState({ items: !items ? [] : items, itemNotFound: !items ? true : false });
 	};
@@ -35,7 +36,7 @@ class SearchResults extends React.Component {
 	};
 
 	render = () => {
-		const { match } = this.props;
+		const { match, categories } = this.props;
 		return (
 			<div className={'SearchResults__container'}>
 				<Loader isFetching={this.props.isFetching} />
@@ -57,7 +58,7 @@ class SearchResults extends React.Component {
 													</div>
 													<span className='SearchResults__result__state'>{item.state}</span>
 												</div>
-												<NavLink onClick={() => this.fetchSelectedItem(item)} to={`${match.url}/${item.id}`}>
+												<NavLink onClick={() => this.fetchSelectedItem(item, categories)} to={`${match.url}/${item.id}`}>
 													<h2>{item.title}</h2>
 													<span>Completo Unico</span>
 												</NavLink>
