@@ -3,7 +3,6 @@
 	display: grid;
 	background-color: #eeeeee;
 	grid-template-columns: repeat(12, 1fr);
-	grid-template-rows: 50px auto;
-	// grid-template-rows: repeat(12, 1fr);
-	// grid-row: 1/12;
+	min-width: 790px;
+	grid-template-rows: auto auto 1fr;
 }

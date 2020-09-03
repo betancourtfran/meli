@@ -1,6 +1,9 @@
 .Logo__container {
-	background: no-repeat left url('../../assets/Logo_ML.png');
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 36px;
 	min-width: 53px;
-	grid-column: 2/3;
+	grid-column: 3/4;
+	margin-right: 15px;
 }

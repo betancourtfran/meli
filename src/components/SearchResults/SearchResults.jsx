@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { currencyFormatter } from '../../utilities/numberFormatters';
 import { fetchItems } from '../../services/request';
-import { Loader } from '../';
+import { Loader, NotFound } from '../';
 import ic_shipping from '../../assets/ic_shipping.png';
 import './SearchResults.scss';
 
@@ -12,11 +12,6 @@ class SearchResults extends React.Component {
 		this.state = { items: [], itemNotFound: false };
 		this.placeholder = 'Nunca dejes de buscar';
 	}
-
-	fetchSelectedItem = (selectedItem, categories) => {
-		this.props.setFetchingState(true);
-		this.props.fetchSelectedItem(selectedItem, categories);
-	};
 
 	handleItemsSearch = async (query) => {
 		let { items, categories } = await fetchItems(query);
@@ -36,7 +31,6 @@ class SearchResults extends React.Component {
 	};
 
 	render = () => {
-		const { match, categories } = this.props;
 		return (
 			<div className={'SearchResults__container'}>
 				<Loader isFetching={this.props.isFetching} />
@@ -54,11 +48,11 @@ class SearchResults extends React.Component {
 												<div className='SearchResults__result__price-state'>
 													<div>
 														<span className='SearchResults__result__price'>{currencyFormatter(item.price.amount, item.price.currency)} </span>
-														{item.free_shipping && <img className='free-shipping-logo' src={ic_shipping} title='envio gratis' width='18' height='18' />}
+														{item.free_shipping && <img className='free-shipping-logo' src={ic_shipping} title='envio gratis' width='18' height='18' alt='envio gratis' />}
 													</div>
 													<span className='SearchResults__result__state'>{item.state}</span>
 												</div>
-												<NavLink onClick={() => this.fetchSelectedItem(item, categories)} to={`${match.url}/${item.id}`}>
+												<NavLink to={`item/${item.id}`}>
 													<h2>{item.title}</h2>
 													<span>Completo Unico</span>
 												</NavLink>
@@ -70,7 +64,7 @@ class SearchResults extends React.Component {
 						</div>
 					</>
 				) : (
-					this.state.itemNotFound && <h2>Item not found</h2>
+					this.state.itemNotFound && <NotFound />
 				)}
 			</div>
 		);

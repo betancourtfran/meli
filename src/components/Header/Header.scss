@@ -1,10 +1,15 @@
-.Header__container {
+.Header__wrapper {
 	display: grid;
 	grid-column: 1/13;
 	grid-template-columns: repeat(12, 1fr);
 	align-items: center;
-	background-color: #fff159;
+	background-color: #ffe600;
 	height: 50px;
-	// grid-column-gap: 10px;
-	// padding: 0 5%;
+}
+
+.Header__container {
+	display: flex;
+	grid-column: 3/11;
+	align-items: center;
+	min-width: 790px;
 }

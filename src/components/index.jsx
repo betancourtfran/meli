@@ -7,3 +7,4 @@ export { Logo } from './Logo';
 export { Header } from './Header';
 export { Breadcrumbs } from './Breadcrumbs';
 export { ProductDetails } from './ProductDetails';
+export { NotFound } from './NotFound';

@@ -8,7 +8,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedItem: {},
+			selectedItem: [],
 			items: [],
 			categories: [],
 			isFetching: false,
@@ -57,7 +57,11 @@ class App extends React.Component {
 						}}
 					/>
 					<Switch>
-						<Route path='/items/:id' exact render={(props) => <ProductDetails {...props} item={this.state.selectedItem} isFetching={this.state.isFetching} />} />
+						<Route
+							path='/item/:id'
+							exact
+							render={(props) => <ProductDetails {...props} item={this.state.selectedItem} setFetchingState={this.setFetchingState} isFetching={this.state.isFetching} />}
+						/>
 						<Route
 							path='/items'
 							render={(props) => (

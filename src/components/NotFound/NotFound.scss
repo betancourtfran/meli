@@ -1,0 +1,21 @@
+.NotFound__container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: #eeeeee;
+	h1 {
+		color: #333333;
+	}
+	img {
+		width: 500px;
+	}
+	ul {
+		list-style-type: disc;
+	}
+	li {
+		margin-bottom: 0.5em;
+	}
+}

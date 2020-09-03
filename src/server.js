@@ -6,6 +6,40 @@ const port = 3001;
 
 const endPointBaseURL = `https://api.mercadolibre.com`;
 
+const parseData = (data) => {
+	if (data.length > 0) {
+		return data.map((item) => ({
+			id: item.id,
+			title: item.title,
+			price: {
+				currency: item.currency_id || 'ARS',
+				amount: item.price || item.original_price,
+				decimals: 0,
+			},
+			picture: item.thumbnail,
+			free_shipping: item.shipping.free_shipping,
+			state: item.seller_address.state.name,
+			item_condition: item.attributes[8].value_name,
+			sold_quantity: item.sold_quantity,
+		}));
+	} else {
+		return {
+			id: data.id,
+			title: data.title,
+			price: {
+				currency: data.currency_id || 'ARS',
+				amount: data.price || data.original_price,
+				decimals: 0,
+			},
+			picture: data.thumbnail,
+			free_shipping: data.shipping.free_shipping,
+			state: data.seller_address.state.name,
+			item_condition: data.attributes[1].value_name,
+			sold_quantity: data.sold_quantity,
+		};
+	}
+};
+
 app.get('/api/items', (req, res) => {
 	let query = [];
 	let concatenatedQuery;
@@ -17,22 +51,9 @@ app.get('/api/items', (req, res) => {
 	axios
 		.get(url)
 		.then(({ data }) => {
-			let items = data.results.map((item) => ({
-				id: item.id,
-				title: item.title,
-				price: {
-					currency: item.currency_id || 'ARS',
-					amount: item.price || item.original_price,
-					decimals: 0,
-				},
-				picture: item.thumbnail,
-				free_shipping: item.shipping.free_shipping,
-				state: item.seller_address.state.name,
-				item_condition: item.attributes[1].value_name,
-				sold_quantity: item.sold_quantity,
-			}));
+			let items = parseData(data.results);
 			let categories = data.filters[0].values[0].path_from_root.map((category) => category);
-			let sanitizedResponse = {
+			let mergedResponse = {
 				author: {
 					name: 'Francisco',
 					lastname: 'Betancourt',
@@ -40,11 +61,23 @@ app.get('/api/items', (req, res) => {
 				categories: [...categories],
 				items: [...items],
 			};
-			res.send(sanitizedResponse);
+			res.send(mergedResponse);
 		})
 		.catch((err) => res.send(err));
 });
-app.get('/api/items/:id/description', (req, res) => {
+
+app.get('/api/item/:id', (req, res) => {
+	const { href: url } = new URL(`items/${req.params.id}`, endPointBaseURL);
+	axios
+		.get(url)
+		.then(({ data }) => {
+			let item = parseData(data);
+			res.send(item);
+		})
+		.catch((err) => res.send(err));
+});
+
+app.get('/api/item/:id/description', (req, res) => {
 	const { href: url } = new URL(`items/${req.params.id}/description`, endPointBaseURL);
 	axios
 		.get(url)

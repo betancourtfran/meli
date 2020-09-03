@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-const endPointBaseURL = `/api/items`;
+const getSingleItemEndPointBaseURL = `/api/item`;
+const getMultipleItemsEndPointBaseURL = `/api/items`;
 
 const fetchItems = async (query) =>
 	await axios
-		.get(endPointBaseURL, {
+		.get(getMultipleItemsEndPointBaseURL, {
 			params: {
 				q: query,
 			},
@@ -14,13 +15,13 @@ const fetchItems = async (query) =>
 
 const fetchItemDetails = async (itemId) =>
 	await axios
-		.get(`${endPointBaseURL}/${itemId}`)
-		.then((res) => res)
+		.get(`${getSingleItemEndPointBaseURL}/${itemId}`)
+		.then((res) => res.data)
 		.catch((err) => err);
 
 const fetchItemDescription = async (itemId) =>
 	await axios
-		.get(`${endPointBaseURL}/${itemId}/description`)
+		.get(`${getSingleItemEndPointBaseURL}/${itemId}/description`)
 		.then((res) => {
 			return res.data;
 		})

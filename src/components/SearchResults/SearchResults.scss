@@ -1,11 +1,9 @@
 .SearchResults__container {
 	display: flex;
 	flex-direction: column;
-	min-height: 200px;
-	height: 100%;
-	grid-column: 2/12;
-	grid-row: 3/11;
+	grid-column: 3/11;
 	background-color: white;
+	margin-bottom: 55px;
 }
 .SearchResults__results {
 	h2 {
@@ -33,6 +31,7 @@
 	h2 ~ span {
 		margin: 0;
 		font-size: 18px;
+		font-weight: 300;
 	}
 }
 
@@ -50,9 +49,11 @@
 .SearchResults__result__state {
 	font-size: 12px;
 	margin: 10px 50px 0 0;
+	color: #999999;
 }
 .SearchResults__result__price {
 	font-size: 24px;
+	color: #333333;
 }
 
 .SearchResults__result__image__container {
