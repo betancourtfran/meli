@@ -6,6 +6,7 @@ const port = 3001;
 
 const endPointBaseURL = `https://api.mercadolibre.com`;
 
+//constructs a new object with wanted props
 const parseData = (data) => {
 	if (data.length > 0) {
 		return data.map((item) => ({
@@ -19,7 +20,7 @@ const parseData = (data) => {
 			picture: item.thumbnail,
 			free_shipping: item.shipping.free_shipping,
 			state: item.seller_address.state.name,
-			item_condition: item.attributes[8].value_name,
+			item_condition: item.attributes.filter((attr) => attr.id === 'ITEM_CONDITION')[0].value_name,
 			sold_quantity: item.sold_quantity,
 		}));
 	} else {
@@ -34,12 +35,13 @@ const parseData = (data) => {
 			picture: data.thumbnail,
 			free_shipping: data.shipping.free_shipping,
 			state: data.seller_address.state.name,
-			item_condition: data.attributes[1].value_name,
+			item_condition: data.attributes.filter((attr) => attr.id === 'ITEM_CONDITION')[0].value_name,
 			sold_quantity: data.sold_quantity,
 		};
 	}
 };
 
+//defines route for items fetching based on query
 app.get('/api/items', (req, res) => {
 	let query = [];
 	let concatenatedQuery;
@@ -47,7 +49,7 @@ app.get('/api/items', (req, res) => {
 		query.push(`${key}=${val}`);
 		concatenatedQuery = query.join('&');
 	}
-	const { href: url } = new URL(`sites/MLA/search?${concatenatedQuery}&limit=4`, endPointBaseURL);
+	const { href: url } = new URL(`sites/MLA/search?${concatenatedQuery}`, endPointBaseURL);
 	axios
 		.get(url)
 		.then(({ data }) => {
@@ -66,6 +68,7 @@ app.get('/api/items', (req, res) => {
 		.catch((err) => res.send(err));
 });
 
+//defines route to fetch specific item based on id
 app.get('/api/item/:id', (req, res) => {
 	const { href: url } = new URL(`items/${req.params.id}`, endPointBaseURL);
 	axios
@@ -77,6 +80,7 @@ app.get('/api/item/:id', (req, res) => {
 		.catch((err) => res.send(err));
 });
 
+//defines route to fetch specific item description based on id
 app.get('/api/item/:id/description', (req, res) => {
 	const { href: url } = new URL(`items/${req.params.id}/description`, endPointBaseURL);
 	axios

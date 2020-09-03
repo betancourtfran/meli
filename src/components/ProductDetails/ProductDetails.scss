@@ -11,8 +11,10 @@
 .ProductDetails__product__image {
 	grid-column: 1/10;
 	grid-row: 1/10;
+	max-width: 680px;
+	min-width: 300px;
 	img {
-		width: 680px;
+		width: 100%;
 	}
 }
 
@@ -66,5 +68,6 @@
 	p {
 		margin: 0;
 		font-size: 16px;
+		text-align: justify;
 	}
 }

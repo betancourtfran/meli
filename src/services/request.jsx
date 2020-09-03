@@ -2,12 +2,14 @@ import axios from 'axios';
 
 const getSingleItemEndPointBaseURL = `/api/item`;
 const getMultipleItemsEndPointBaseURL = `/api/items`;
+const maximumResults = 4;
 
 const fetchItems = async (query) =>
 	await axios
 		.get(getMultipleItemsEndPointBaseURL, {
 			params: {
 				q: query,
+				limit: maximumResults,
 			},
 		})
 		.then(({ data }) => data)

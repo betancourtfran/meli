@@ -10,7 +10,6 @@ const NotFound = () => {
 			<ul>
 				<li>Revisá la ortografía de la palabra.</li>
 				<li>Utilizá palabras más genéricas o menos palabras.</li>
-				<li>Navegá por las categorías para encontrar un producto similar</li>
 			</ul>
 		</div>
 	);
