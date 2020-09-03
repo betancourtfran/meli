@@ -5,6 +5,8 @@
 	background-color: white;
 	margin-bottom: 55px;
 	min-width: 790px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
 }
 .SearchResults__results {
 	h2 {
@@ -18,10 +20,11 @@
 	padding: 16px 16px 16px 0;
 	display: flex;
 	background: white;
-	border-bottom: 1px solid #a7a7a7;
+	border-bottom: 1px solid #eeeeee;
 	list-style-type: none;
 	&:first-child {
-		border-right: 5px 5px 0 0;
+		border-top-right-radius: 5px;
+		border-top-left-radius: 5px;
 	}
 }
 .SearchResults__result__description {

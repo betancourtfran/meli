@@ -41,6 +41,15 @@ const parseData = (data) => {
 	}
 };
 
+//defines author
+
+const author = {
+	author: {
+		name: 'Francisco',
+		lastname: 'Betancourt',
+	},
+};
+
 //defines route for items fetching based on query
 app.get('/api/items', (req, res) => {
 	let query = [];
@@ -56,10 +65,7 @@ app.get('/api/items', (req, res) => {
 			let items = parseData(data.results);
 			let categories = data.filters[0].values[0].path_from_root.map((category) => category);
 			let mergedResponse = {
-				author: {
-					name: 'Francisco',
-					lastname: 'Betancourt',
-				},
+				...author,
 				categories: [...categories],
 				items: [...items],
 			};
@@ -75,7 +81,11 @@ app.get('/api/item/:id', (req, res) => {
 		.get(url)
 		.then(({ data }) => {
 			let item = parseData(data);
-			res.send(item);
+			let mergedResponse = {
+				...author,
+				...item,
+			};
+			res.send(mergedResponse);
 		})
 		.catch((err) => res.send(err));
 });
@@ -86,6 +96,10 @@ app.get('/api/item/:id/description', (req, res) => {
 	axios
 		.get(url)
 		.then(({ data }) => {
+			let mercadolibre = {
+				...author,
+				plain_text: data.plain_text,
+			};
 			res.send(data.plain_text);
 		})
 		.catch((err) => res.send(err));
