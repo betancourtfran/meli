@@ -1,9 +1,11 @@
+@import '../../colors';
+
 .Breadcrum__container {
 	display: grid;
 	grid-column: 3/11;
 	grid-row: 2/3;
-	background-color: #eeeeee;
-	color: #999999;
+	background-color: $light-grey;
+	color: $medium-light-grey;
 	padding: 16px 0px;
 	height: 50px;
 }

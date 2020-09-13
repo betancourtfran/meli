@@ -1,16 +1,19 @@
+@import '../../measures';
+@import '../../colors';
+
 .SearchResults__container {
 	display: flex;
 	flex-direction: column;
 	grid-column: 3/11;
 	background-color: white;
 	margin-bottom: 55px;
-	min-width: 790px;
+	min-width: $page-min-width;
 	border-top-right-radius: 5px;
 	border-top-left-radius: 5px;
 }
 .SearchResults__results {
 	h2 {
-		color: #333;
+		color: $dark-grey;
 		font-size: 20px;
 		font-weight: 300;
 		line-height: 1.3;
@@ -20,7 +23,7 @@
 	padding: 16px 16px 16px 0;
 	display: flex;
 	background: white;
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid $light-grey;
 	list-style-type: none;
 	&:first-child {
 		border-top-right-radius: 5px;
@@ -53,11 +56,11 @@
 .SearchResults__result__state {
 	font-size: 12px;
 	margin: 10px 50px 0 0;
-	color: #999999;
+	color: $medium-light-grey;
 }
 .SearchResults__result__price {
 	font-size: 24px;
-	color: #333333;
+	color: $dark-grey;
 }
 
 .SearchResults__result__image__container {

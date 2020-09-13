@@ -1,8 +1,10 @@
+@import 'measures';
+@import 'colors';
 .app {
 	height: 100vh;
 	display: grid;
-	background-color: #eeeeee;
+	background-color: $light-grey;
 	grid-template-columns: repeat(12, 1fr);
-	min-width: 790px;
+	min-width: $page-min-width;
 	grid-template-rows: auto auto 1fr;
 }

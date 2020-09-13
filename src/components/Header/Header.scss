@@ -1,16 +1,19 @@
+@import '../../colors';
+@import '../../measures';
+
 .Header__wrapper {
 	display: grid;
 	grid-column: 1/13;
 	grid-template-columns: repeat(12, 1fr);
 	align-items: center;
-	background-color: #ffe600;
+	background-color: $primary-color;
 	height: 50px;
-	min-width: 790px;
+	min-width: $page-min-width;
 }
 
 .Header__container {
 	display: flex;
 	grid-column: 3/11;
 	align-items: center;
-	min-width: 790px;
+	min-width: $page-min-width;
 }
